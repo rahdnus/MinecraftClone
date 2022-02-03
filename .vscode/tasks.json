@@ -1,0 +1,42 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "cppbuild",
+			"label": "C/C++: g++.exe build active file",
+			"command": "C:\\MinGW\\bin\\g++.exe",
+			"args": [
+				"${workspaceRoot}/src/main.cpp",
+				// Include all source files.
+				"${workspaceRoot}/dependencies/GLAD/src/glad.c",
+				"${workspaceRoot}/src/input.cpp",
+				"${workspaceRoot}/src/window.cpp",
+				// Include .cpp files here (These are for .h file code)
+				"-g",
+				"--std=c++17",
+				"-I${workspaceRoot}/dependencies/GLFW/include",
+				"-I${workspaceFolder}/dependencies/GLAD/include",
+				"-I${workspaceFolder}/dependencies/include",
+				"-I${workspaceFolder}/dependencies/include/core",
+				"-lopengl32",
+				"-L${workspaceRoot}/dependencies/GLFW/lib-mingw",
+				 "-static",
+				"-lglfw3dll",
+				"-o",
+				"${workspaceRoot}/Builds/main"	
+
+			],
+			"options": {
+				"cwd": "${fileDirname}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"detail": "compiler: C:\\MinGW\\bin\\g++.exe"
+		}
+	]
+}
