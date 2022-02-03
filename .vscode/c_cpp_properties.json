@@ -3,9 +3,7 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**",
-                "${workspaceFolder}/dependencies/GLFW/include",
-                "${workspaceFolder}/dependencies/GLAD/include"
+                "${workspaceFolder}/**"
             ],
             "defines": [
                 "_DEBUG",

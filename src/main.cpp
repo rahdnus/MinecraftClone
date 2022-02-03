@@ -1,10 +1,10 @@
     #include "core.h"
-    #include "window.h"
-    #include "input.h"
+    #include "core/window.h"
+    #include "core/input.h"
 
     int main()
     {
-        glfwInit();
+       glfwInit();
 
         GLFWwindow* window= window::create();
 
