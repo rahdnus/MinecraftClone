@@ -1,4 +1,4 @@
-#include "core/challenge.hpp"
+#include "challenge.hpp"
 
 using namespace Minecraft::Math;
 
@@ -93,6 +93,71 @@ namespace Minecraft::Ch2{
     }
 
 }
+namespace Minecraft::Ch3{
+    GLuint Vao_ID;
+    GLuint Vbo_ID;
+    GLuint Ebo_ID;
+
+    GLuint indices[]={
+     0,1,9,     6,5,7,      1,3,7,
+     1,2,3,     7,8,9,      3,5,7,
+     3,4,5,     1,9,7
+
+    };
+    Vertex vertex[]={
+    {glm::vec4(0,1,1,1),glm::vec3(0,0.75f,0)},
+    {glm::vec4(0,1,1,1),glm::vec3(-0.2f,0.2f,0)},
+    {glm::vec4(1,1,0,1),glm::vec3(-0.55f,0.1f,0)},
+    {glm::vec4(1,1,0,1),glm::vec3(-0.3f,-0.2f,0)},
+    {glm::vec4(1,0,1,1),glm::vec3(-0.40f,-0.75f,0)},
+    {glm::vec4(1,0,1,1),glm::vec3(0,-0.4f,0)},
+    {glm::vec4(1,0,1,1),glm::vec3(0.40f,-0.75f,0)},
+    {glm::vec4(1,1,0,1),glm::vec3(0.3f,-0.2f,0)},
+    {glm::vec4(1,1,0,1),glm::vec3(0.55f,0.1f,0)},
+    {glm::vec4(0,1,1,1),glm::vec3(0.2f,0.2f,0)},
+};
+    void SetUp()
+    {
+        printf("\nin setup3");
+        glCreateVertexArrays(1,&Vao_ID);
+        glBindVertexArray(Vao_ID);
+
+        glCreateBuffers(1,&Vbo_ID);
+        glBindBuffer(GL_ARRAY_BUFFER,Vbo_ID);
+        glBufferData(GL_ARRAY_BUFFER,sizeof(vertex),vertex,GL_STATIC_DRAW);
+
+        glCreateBuffers(1,&Ebo_ID);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,Ebo_ID);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER,sizeof(indices),indices,GL_STATIC_DRAW);
+        
+        glVertexAttribPointer(0,4,GL_FLOAT,GL_FALSE,sizeof(Vertex),(void*)offsetof(Vertex,color));
+        glEnableVertexAttribArray(0);
+
+        glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,sizeof(Vertex),(void*)offsetof(Vertex,position));
+        glEnableVertexAttribArray(1);
+        
+  
+    }
+
+    void Draw()
+    {
+        glBindVertexArray(Vao_ID);
+        glDrawElements(GL_TRIANGLES,24,GL_UNSIGNED_INT,0);
+    }
+    void Delete()
+    {
+                printf("\nin delete3");
+
+        glDeleteBuffers(1,&Ebo_ID);
+        glDeleteBuffers(1,&Vbo_ID);
+        glDeleteVertexArrays(1,&Vao_ID);
+    }
+
+}
+
+
+
+
 
 
 

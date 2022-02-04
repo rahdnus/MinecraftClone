@@ -3,7 +3,7 @@
     #include "core/input.h"
     #include "math1.h"
     #include "renderer.h"
-    #include "core/challenge.hpp"
+    #include "challenge.hpp"
 
     using namespace Minecraft;
     
@@ -13,7 +13,8 @@
 
     bool Minecraft::b1_draw=false;
     bool Minecraft::b2_draw=false;
- 
+    bool Minecraft::b3_draw=false;
+
 
     int main()
     {
@@ -45,6 +46,8 @@
                 Ch1::Draw();
             if(b2_draw)
                 Ch2::Draw();
+            if(b3_draw)
+                Ch3::Draw();
             glfwSwapBuffers(window);
             glfwPollEvents();
            
@@ -54,8 +57,12 @@
     }
      void DeleteAll()
     {
+            b1_draw = false;
+            b2_draw = false;
+            b3_draw=false;
         Ch1::Delete();
         Ch2::Delete();
+        Ch3::Delete();
     }
 
     void ProcessInput(GLFWwindow* window)
@@ -77,12 +84,18 @@
             Ch2::SetUp();
             b2_draw=true;
         }
+        if(input::key_down(GLFW_KEY_3))
+        {
+            DeleteAll();
+
+            Ch3::SetUp();
+            b3_draw=true;
+        }
         if (input::key_down(GLFW_KEY_DELETE))
         {
             DeleteAll();
             
-            b1_draw = false;
-            b2_draw = false;
+        
         }
     }
    
