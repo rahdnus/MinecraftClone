@@ -1,8 +1,10 @@
-#include "input.h"
+#include "core/input.h"
 
 namespace input{
+
     bool keypressed[GLFW_KEY_LAST]={};
     bool mousepressed[GLFW_MOUSE_BUTTON_LAST]={};
+
     void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
     {
         if(key>=0 && key<GLFW_KEY_LAST)
@@ -49,6 +51,7 @@ namespace input{
         }
         return false;
     }
+    
 }
 
 

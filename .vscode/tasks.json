@@ -6,14 +6,17 @@
 			"label": "C/C++: g++.exe build active file",
 			"command": "C:\\MinGW\\bin\\g++.exe",
 			"args": [
-				"${workspaceRoot}/src/**.cpp",
-				// Include all source files.
 				"${workspaceRoot}/dependencies/GLAD/src/glad.c",
+				"${workspaceRoot}/src/**.cpp",
+				"${workspaceRoot}/src/core/**.cpp",
+
+				// Include all source files.
 				"-g",
 				"--std=c++17",
 				// Include .cpp files here (These are for .h file code)
 				"-I${workspaceRoot}/dependencies/GLFW/include",
 				"-I${workspaceFolder}/dependencies/GLAD/include",
+				"-I${workspaceFolder}/dependencies/glm",
 				"-I${workspaceFolder}/dependencies/include",
 				"-lopengl32",
 				"-L${workspaceRoot}/dependencies/GLFW/lib-mingw",
