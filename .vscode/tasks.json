@@ -16,8 +16,8 @@
 				// Include .cpp files here (These are for .h file code)
 				"-I${workspaceRoot}/dependencies/GLFW/include",
 				"-I${workspaceFolder}/dependencies/GLAD/include",
-				"-I${workspaceFolder}/dependencies/glm",
 				"-I${workspaceFolder}/dependencies/include",
+				"-I${workspaceFolder}/dependencies/glm",
 				"-lopengl32",
 				"-L${workspaceRoot}/dependencies/GLFW/lib-mingw",
 				 "-static",

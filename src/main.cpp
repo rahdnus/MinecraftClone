@@ -3,32 +3,18 @@
     #include "core/input.h"
     #include "math1.h"
     #include "renderer.h"
+    #include "core/challenge.hpp"
 
-    void ProcessInput(GLFWwindow* window);
-    void Draw();
-    bool b_draw=false;
-
-    static MinecraftClone::Shader shader;
-
-    struct Vertex
-    {
-        glm::vec4 color;
-        glm::vec3 pos;
-    }; 
+    using namespace Minecraft;
     
-    GLuint vaoID;
-    GLuint vboID;
-    Vertex vertexarray[]=
-        {
-            {glm::vec4(0,1,1,1),glm::vec3(0.5f,-0.5f,0)},
-            {glm::vec4(1,0,1,1),glm::vec3(-0.5f,0.5f,0)},
-            {glm::vec4(1,1,0,1),glm::vec3(0.5f,0.5f,0)},
+    void ProcessInput(GLFWwindow* window);
+    
+    static Shader shader;
 
-            {glm::vec4(1,0,1,1),glm::vec3(-0.51f,0.5f,0)},
-            {glm::vec4(1,0,1,1),glm::vec3(-0.5f,-0.51f,0)},
-            {glm::vec4(0,1,1,1),glm::vec3(0.5f,-0.51f,0)}
+    bool Minecraft::b1_draw=false;
+    bool Minecraft::b2_draw=false;
+ 
 
-        };
     int main()
     {
         glfwInit();
@@ -55,8 +41,10 @@
             glClear(GL_COLOR_BUFFER_BIT);
 
             ProcessInput(window);
-            if(b_draw)
-                Draw();
+            if(b1_draw)
+                Ch1::Draw();
+            if(b2_draw)
+                Ch2::Draw();
             glfwSwapBuffers(window);
             glfwPollEvents();
            
@@ -64,43 +52,37 @@
         glfwTerminate();
         return 0;
     }
+     void DeleteAll()
+    {
+        Ch1::Delete();
+        Ch2::Delete();
+    }
 
     void ProcessInput(GLFWwindow* window)
     {
-         if(input::key_down(GLFW_KEY_ESCAPE))
-           {
-               glfwSetWindowShouldClose(window,true);
-           }
-           if(glfwGetKey(window,GLFW_KEY_F11))
-           {
-               window::toggleFullscreen(window);
-           }
-           if(input::mouse_down(GLFW_MOUSE_BUTTON_1))
-           {   
-            glCreateVertexArrays(1, &vaoID);
-            glBindVertexArray(vaoID);
+        if (input::key_down(GLFW_KEY_ESCAPE)){glfwSetWindowShouldClose(window, true);}
+        if (input::key_down(GLFW_KEY_F11)){window::toggleFullscreen(window);}
+        
+        if (input::key_down(GLFW_KEY_1))
+        {
+            DeleteAll();
 
-            glCreateBuffers(1, &vboID);
-            glBindBuffer(GL_ARRAY_BUFFER, vboID);
-            glBufferData(GL_ARRAY_BUFFER, sizeof(vertexarray), vertexarray, GL_STATIC_DRAW);
+            Ch1::SetUp();
+            b1_draw = true;
+        }
+        if(input::key_down(GLFW_KEY_2))
+        {
+            DeleteAll();
 
-            glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)offsetof(Vertex, color));
-            glEnableVertexAttribArray(0);
-
-            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)offsetof(Vertex, pos));
-            glEnableVertexAttribArray(1);
-
-            b_draw=true;
-
-           } if(input::mouse_down(GLFW_MOUSE_BUTTON_2))
-           {
-                glDeleteBuffers(1,&vboID);
-                glDeleteVertexArrays(1,&vaoID);
-                b_draw=false;
-
-           }
+            Ch2::SetUp();
+            b2_draw=true;
+        }
+        if (input::key_down(GLFW_KEY_DELETE))
+        {
+            DeleteAll();
+            
+            b1_draw = false;
+            b2_draw = false;
+        }
     }
-    void Draw()
-    {
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-    }
+   

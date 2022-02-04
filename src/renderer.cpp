@@ -1,6 +1,6 @@
 #include "renderer.h"
 
-namespace MinecraftClone
+namespace Minecraft
 {
     const char* vertexShaderSource = R"(
 #version 460 core

@@ -2,7 +2,7 @@
 
 #include "core.h"
 
-namespace MinecraftClone
+namespace Minecraft
 {
 	struct Shader
 	{
