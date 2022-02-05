@@ -3,7 +3,13 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/dependencies/include",
+                "${workspaceFolder}/dependencies/GLAD/include",
+                "${workspaceFolder}/dependencies/GLFW/include",
+                "${workspaceFolder}/dependencies/glm"
+        
+
             ],
             "defines": [
                 "_DEBUG",
@@ -13,7 +19,6 @@
             "browse": {
                 "path": [
                     "${workspaceFolder}/dependencies/GLFW/lib-mingw"
-
                 ]
             },
             "windowsSdkVersion": "10.0.17763.0",

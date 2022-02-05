@@ -14,6 +14,7 @@
     bool Minecraft::b1_draw=false;
     bool Minecraft::b2_draw=false;
     bool Minecraft::b3_draw=false;
+    bool Minecraft::b4_draw=false;
 
 
     int main()
@@ -48,6 +49,8 @@
                 Ch2::Draw();
             if(b3_draw)
                 Ch3::Draw();
+            if(b4_draw)
+                Ch4::Draw();
             glfwSwapBuffers(window);
             glfwPollEvents();
            
@@ -60,9 +63,11 @@
             b1_draw = false;
             b2_draw = false;
             b3_draw=false;
+            b4_draw=false;
         Ch1::Delete();
         Ch2::Delete();
         Ch3::Delete();
+        Ch4::Delete();
     }
 
     void ProcessInput(GLFWwindow* window)
@@ -90,6 +95,13 @@
 
             Ch3::SetUp();
             b3_draw=true;
+        }
+         if(input::key_down(GLFW_KEY_4))
+        {
+            DeleteAll();
+
+            Ch4::SetUp();
+            b4_draw=true;
         }
         if (input::key_down(GLFW_KEY_DELETE))
         {
