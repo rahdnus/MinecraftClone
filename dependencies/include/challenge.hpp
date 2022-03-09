@@ -2,6 +2,7 @@
 
 #include "core.h"
 #include "math1.h"
+
 namespace Minecraft{
 
     extern bool b1_draw;
@@ -13,9 +14,11 @@ namespace Minecraft{
     {
         extern GLuint Vao_ID;
         extern GLuint Vbo_ID;
+        extern GLuint Tex_ID;
         extern Math::Vertex vertex[3];
         
         void SetUp();
+        void Bind();
         void Draw();
         void Delete();
     }
@@ -24,11 +27,15 @@ namespace Minecraft{
         extern GLuint Vao_ID;
         extern GLuint Vbo_ID;
         extern GLuint Ebo_ID;
+        extern GLuint Tex_ID1;
+        extern GLuint Tex_ID2;
+
 
         extern GLuint indices[6];
         
         extern Math::Vertex vertex[4];
         void SetUp();
+        void Bind();
         void Draw();
         void Delete();
     }
@@ -37,11 +44,14 @@ namespace Minecraft{
         extern GLuint Vao_ID;
         extern GLuint Vbo_ID;
         extern GLuint Ebo_ID;
+        extern GLuint Tex_ID;
+
 
         extern GLuint indices[24];
         
         extern Math::Vertex vertex[10];
         void SetUp();
+        void Bind();
         void Draw();
         void Delete();
     }
@@ -50,11 +60,13 @@ namespace Minecraft{
         extern GLuint Vao_ID;
         extern GLuint Vbo_ID;
         extern GLuint Ebo_ID;
+        extern GLuint Tex_ID;
 
         extern GLuint indices[8];
         
         extern Math::Vertex vertex[4];
         void SetUp();
+        void Bind();
         void Draw();
         void Delete();
     }

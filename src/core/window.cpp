@@ -27,4 +27,5 @@ namespace window{
 
         glfwSetWindowMonitor(window,_fullscreen?glfwGetPrimaryMonitor():NULL,0,0,SCR_WIDTH,SCR_HEIGHT,GLFW_DONT_CARE);
     }
+
 }
