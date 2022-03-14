@@ -4,10 +4,14 @@
     #include "glm/vec4.hpp"
     #include "glm/mat4x4.hpp"
     #include"glm/gtc/type_ptr.hpp"
-        // #include "glm/integer.hpp"
+    #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+// #include "glm/integer.hpp"
 
-
-    namespace Minecraft{namespace Math{
+namespace Minecraft
+{
+    namespace Math
+    {
         
         struct Vertex
         {

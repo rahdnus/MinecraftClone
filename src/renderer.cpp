@@ -11,10 +11,16 @@ layout(location=2) in vec2 aTexCoords;
 out vec4 fColor;
 out vec2 TexCoord;
 
+uniform mat4 transform;
+
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
+
 void main()
 {
     fColor = aColor;
-    gl_Position = vec4(aPosition, 1.0);
+    gl_Position = projection * view * model * vec4(aPosition, 1.0);
     TexCoord=aTexCoords;
 })";
 
@@ -29,7 +35,7 @@ uniform sampler2D Texture1;
 uniform sampler2D Texture2;
 void main()
 {
-    FragColor = mix(texture(Texture1,TexCoord),texture(Texture2,TexCoord),0.25)*fColor;
+    FragColor = mix(texture(Texture1,TexCoord),texture(Texture2,TexCoord),0.2)*fColor;
 })";
 
     void Shader::compile()

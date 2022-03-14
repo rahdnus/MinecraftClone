@@ -5,10 +5,10 @@
 
 namespace Minecraft{
 
-    extern bool b1_draw;
-    extern bool b2_draw;
-    extern bool b3_draw;
-    extern bool b4_draw;
+    // extern bool b1_draw;
+    // extern bool b2_draw;
+    // extern bool b3_draw;
+    // extern bool b4_draw;
 
     namespace Ch1
     {
@@ -33,7 +33,7 @@ namespace Minecraft{
 
         extern GLuint indices[6];
         
-        extern Math::Vertex vertex[4];
+        extern Math::Vertex vertex[36];
         void SetUp();
         void Bind();
         void Draw();
