@@ -7,6 +7,7 @@ namespace Minecraft{namespace Application
     void mouse_callback(GLFWwindow* window,double xpos,double ypos);
 
     static Shader shader;
+    static Shader light;
 
     glm::vec3 cubePositions[] = {
     glm::vec3( 0.0f,  0.0f,  -10.0f), 
@@ -20,15 +21,102 @@ namespace Minecraft{namespace Application
     glm::vec3( 1.5f,  0.2f, -1.5f), 
     glm::vec3(-1.3f,  1.0f, -1.5f)  
     };
-    
+        const char* fragmentShaderSource = R"(
+#version 460 core
+out vec4 FragColor;
+  
+uniform vec3 objectColor;
+uniform vec3 lightColor;
+
+in vec4 fColor;
+in vec2 TexCoord;
+
+uniform sampler2D Texture1;
+uniform sampler2D Texture2;
+void main()
+{
+    FragColor = mix(texture(Texture1,TexCoord),texture(Texture2,TexCoord),0.2)*vec4(lightColor*objectColor,1.0);
+})";
+       const char* lightfragmentShaderSource = R"(
+#version 460 core
+out vec4 FragColor;
+
+void main()
+{
+    FragColor = vec4(1.0);
+})";
+    const char* vertexShaderSource = R"(
+#version 460 core
+layout (location = 0) in vec4 aColor;
+layout (location = 1) in vec3 aPosition;
+layout(location=2) in vec2 aTexCoords;
+
+out vec4 fColor;
+out vec2 TexCoord;
+
+uniform mat4 transform;
+
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
+
+void main()
+{
+    fColor = aColor;
+    gl_Position = projection * view * model * vec4(aPosition, 1.0);
+    TexCoord=aTexCoords;
+})";
+  Math::Vertex vertex[] = {{glm::vec4(1, 1, 0, 1), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 0.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(1.0f, 0.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(0.5f, 0.5f, -0.5f), glm::vec2(1.0f, 1.0f)},
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(0.5f, 0.5f, -0.5f), glm::vec2(1.0f, 1.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(0.0f, 1.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 0.0f)},
+
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0f, 0.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(1.0f, 0.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 1.0f)},
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 1.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(0.0f, 1.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0f, 0.0f)},
+
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 0.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(1.0f, 1.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 1.0f)},
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 1.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0f, 0.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 0.0f)},
+
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 0.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(0.5f, 0.5f, -0.5f), glm::vec2(1.0f, 1.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 1.0f)},
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 1.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(0.0f, 0.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 0.0f)},
+
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 1.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(1.0f, 1.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(1.0f, 0.0f)},
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(1.0f, 0.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0f, 0.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 1.0f)},
+
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(0.0f, 1.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(0.5f, 0.5f, -0.5f), glm::vec2(1.0f, 1.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 0.0f)},
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 0.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(0.0f, 0.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(0.0f, 1.0f)}};
 
     glm::vec3 CameraPos{0,0,10};
     glm::vec3 CameraCenter{0,0,-1};
     glm::vec3 CameraUp{0,1,0};
     float lastFrame=0.0f;
     float deltatime=0.0f;
-
+    
     float yaw=-90,pitch=0.0f;
+
+    GLuint VAO,VBO;
 
     bool Init()
     {
@@ -42,7 +130,8 @@ namespace Minecraft{namespace Application
             return -1;
         }
         
-        shader.compile();
+        shader.compile(vertexShaderSource,fragmentShaderSource);
+        light.compile(vertexShaderSource,lightfragmentShaderSource);
 
         glViewport(0,0,800,600);
         shader.bind();
@@ -52,6 +141,23 @@ namespace Minecraft{namespace Application
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);  
         // Ch1::SetUp();
         Ch2::SetUp();
+         light.bind();
+        glCreateVertexArrays(1,&VAO);
+        glBindVertexArray(VAO);
+        glCreateBuffers(1,&VBO);
+        glBindBuffer(GL_BUFFER,VBO);
+        glBufferData(GL_ARRAY_BUFFER,sizeof(vertex),vertex,GL_STATIC_DRAW);
+
+        
+        glVertexAttribPointer(0,4,GL_FLOAT,GL_FALSE,sizeof(Math::Vertex),(void*)offsetof(Math::Vertex,color));
+        glEnableVertexAttribArray(0);
+
+        glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,sizeof(Math::Vertex),(void*)offsetof(Math::Vertex,position));
+        glEnableVertexAttribArray(1);
+
+        glVertexAttribPointer(2,2,GL_FLOAT,GL_FALSE,sizeof(Math::Vertex),(void*)offsetof(Math::Vertex,texcoords));
+        glEnableVertexAttribArray(2);  
+        glBindVertexArray(0);
         // Ch3::SetUp();
         // Ch4::SetUp();
         return 1;
@@ -62,7 +168,7 @@ namespace Minecraft{namespace Application
         glEnable(GL_DEPTH_TEST); 
         while (!glfwWindowShouldClose(window))
         {
-            
+            shader.bind();
             float currentFrame=glfwGetTime();
             deltatime=currentFrame-lastFrame;
             lastFrame=currentFrame;
@@ -81,6 +187,9 @@ namespace Minecraft{namespace Application
             glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
             glUniform1i(glGetUniformLocation(shader.programId, "Texture1"), 0);
             glUniform1i(glGetUniformLocation(shader.programId, "Texture2"), 1);
+
+            glUniform3f(glGetUniformLocation(shader.programId, "objectColor"),0.5f,0.5f,0.7f);
+            glUniform3f(glGetUniformLocation(shader.programId, "lightColor"),1.0f,1.0f,0.2f);
             Ch2::Bind();
             
             for (unsigned int i = 1; i < 10; i++)
@@ -94,7 +203,23 @@ namespace Minecraft{namespace Application
 
                 Ch2::Draw();
             }
-            
+            light.bind();
+
+            glBindVertexArray(VAO);
+            viewLoc = glGetUniformLocation(light.programId, "view");
+            glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+            projectionLoc = glGetUniformLocation(light.programId, "projection");
+            glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
+            glUniform1i(glGetUniformLocation(light.programId, "Texture1"), 0);
+            glUniform1i(glGetUniformLocation(light.programId, "Texture2"), 1);
+                glm::mat4 model = glm::mat4(1.0f);
+                model = glm::translate(model, glm::vec3{10,10,10});
+                float angle = 20.0f ;
+                model = glm::rotate(model,glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+                int modelLoc = glGetUniformLocation(light.programId, "model");
+                glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+            glDrawArrays(GL_TRIANGLES,0,36);
+
             ProcessInput(window);
         
                 

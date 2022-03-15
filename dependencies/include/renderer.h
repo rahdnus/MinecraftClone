@@ -9,6 +9,6 @@ namespace Minecraft
 		uint32_t programId;
 
 		void bind();
-		void compile();
+		void compile(const char* ,const char* );
 	};
 }
