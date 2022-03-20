@@ -85,47 +85,49 @@ namespace Minecraft::Ch2{
 //     {glm::vec4(0,1,1,1),glm::vec3(-0.5f,-0.5f,0),glm::vec2(0,0)},
 //     {glm::vec4(1,0,1,1),glm::vec3(-0.5f,0.5f,0),glm::vec2(0,1)}
 // };
-    Vertex vertex[] = {{glm::vec4(1, 1, 0, 1), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 0.0f)},
-                       {glm::vec4(1, 0, 1, 1), glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(1.0f, 0.0f)},
-                       {glm::vec4(0, 1, 1, 1), glm::vec3(0.5f, 0.5f, -0.5f), glm::vec2(1.0f, 1.0f)},
-                       {glm::vec4(1, 1, 0, 1), glm::vec3(0.5f, 0.5f, -0.5f), glm::vec2(1.0f, 1.0f)},
-                       {glm::vec4(1, 0, 1, 1), glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(0.0f, 1.0f)},
-                       {glm::vec4(0, 1, 1, 1), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 0.0f)},
+    Vertex vertex[] = {{glm::vec4(1, 1, 0, 1), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 0.0f),glm::vec3(0.0f,  0.0f, -1.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(1.0f, 0.0f),glm::vec3(  0.0f,  0.0f, -1.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(0.5f, 0.5f, -0.5f), glm::vec2(1.0f, 1.0f),glm::vec3(0.0f,  0.0f, -1.0f)},
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(0.5f, 0.5f, -0.5f), glm::vec2(1.0f, 1.0f),glm::vec3(0.0f,  0.0f, -1.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(0.0f, 1.0f),glm::vec3(0.0f,  0.0f, -1.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 0.0f),glm::vec3(0.0f,  0.0f, -1.0f)},
 
-                       {glm::vec4(1, 1, 0, 1), glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0f, 0.0f)},
-                       {glm::vec4(1, 0, 1, 1), glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(1.0f, 0.0f)},
-                       {glm::vec4(0, 1, 1, 1), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 1.0f)},
-                       {glm::vec4(1, 1, 0, 1), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 1.0f)},
-                       {glm::vec4(1, 0, 1, 1), glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(0.0f, 1.0f)},
-                       {glm::vec4(0, 1, 1, 1), glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0f, 0.0f)},
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0f, 0.0f),glm::vec3(0.0f,  0.0f, 1.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(1.0f, 0.0f),glm::vec3(0.0f,  0.0f, 1.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 1.0f),glm::vec3(0.0f,  0.0f, 1.0f)},
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 1.0f),glm::vec3(0.0f,  0.0f, 1.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(0.0f, 1.0f),glm::vec3(0.0f,  0.0f, 1.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0f, 0.0f),glm::vec3(0.0f,  0.0f, 1.0f)},
 
-                       {glm::vec4(1, 1, 0, 1), glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 0.0f)},
-                       {glm::vec4(1, 0, 1, 1), glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(1.0f, 1.0f)},
-                       {glm::vec4(0, 1, 1, 1), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 1.0f)},
-                       {glm::vec4(1, 1, 0, 1), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 1.0f)},
-                       {glm::vec4(1, 0, 1, 1), glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0f, 0.0f)},
-                       {glm::vec4(0, 1, 1, 1), glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 0.0f)},
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 0.0f),glm::vec3(1.0f,  0.0f,  0.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(1.0f, 1.0f),glm::vec3(1.0f,  0.0f,  0.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 1.0f),glm::vec3(1.0f,  0.0f,  0.0f)},
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 1.0f),glm::vec3(1.0f,  0.0f,  0.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0f, 0.0f),glm::vec3(1.0f,  0.0f,  0.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 0.0f),glm::vec3(1.0f,  0.0f,  0.0f)},
 
-                       {glm::vec4(1, 1, 0, 1), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 0.0f)},
-                       {glm::vec4(1, 0, 1, 1), glm::vec3(0.5f, 0.5f, -0.5f), glm::vec2(1.0f, 1.0f)},
-                       {glm::vec4(0, 1, 1, 1), glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 1.0f)},
-                       {glm::vec4(1, 1, 0, 1), glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 1.0f)},
-                       {glm::vec4(1, 0, 1, 1), glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(0.0f, 0.0f)},
-                       {glm::vec4(0, 1, 1, 1), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 0.0f)},
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 0.0f),glm::vec3(1.0f,  0.0f,  0.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(0.5f, 0.5f, -0.5f), glm::vec2(1.0f, 1.0f),glm::vec3(1.0f,  0.0f,  0.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 1.0f),glm::vec3(1.0f,  0.0f,  0.0f)},
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 1.0f),glm::vec3(1.0f,  0.0f,  0.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(0.0f, 0.0f),glm::vec3(1.0f,  0.0f,  0.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 0.0f),glm::vec3(1.0f,  0.0f,  0.0f)},
 
-                       {glm::vec4(1, 1, 0, 1), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 1.0f)},
-                       {glm::vec4(1, 0, 1, 1), glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(1.0f, 1.0f)},
-                       {glm::vec4(0, 1, 1, 1), glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(1.0f, 0.0f)},
-                       {glm::vec4(1, 1, 0, 1), glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(1.0f, 0.0f)},
-                       {glm::vec4(1, 0, 1, 1), glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0f, 0.0f)},
-                       {glm::vec4(0, 1, 1, 1), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 1.0f)},
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 1.0f),glm::vec3(0.0f, -1.0f,  0.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(1.0f, 1.0f),glm::vec3(0.0f, -1.0f,  0.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(1.0f, 0.0f),glm::vec3(0.0f, -1.0f,  0.0f)},
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(1.0f, 0.0f),glm::vec3(0.0f, -1.0f,  0.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0f, 0.0f),glm::vec3(0.0f, -1.0f,  0.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 1.0f),glm::vec3(0.0f, -1.0f,  0.0f)},
 
-                       {glm::vec4(1, 1, 0, 1), glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(0.0f, 1.0f)},
-                       {glm::vec4(1, 0, 1, 1), glm::vec3(0.5f, 0.5f, -0.5f), glm::vec2(1.0f, 1.0f)},
-                       {glm::vec4(0, 1, 1, 1), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 0.0f)},
-                       {glm::vec4(1, 1, 0, 1), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 0.0f)},
-                       {glm::vec4(1, 0, 1, 1), glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(0.0f, 0.0f)},
-                       {glm::vec4(0, 1, 1, 1), glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(0.0f, 1.0f)}};
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(0.0f, 1.0f),glm::vec3(0.0f,  1.0f,  0.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(0.5f, 0.5f, -0.5f), glm::vec2(1.0f, 1.0f),glm::vec3(0.0f,  1.0f,  0.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 0.0f),glm::vec3(0.0f,  1.0f,  0.0f)},
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 0.0f),glm::vec3(0.0f,  1.0f,  0.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(0.0f, 0.0f),glm::vec3(0.0f,  1.0f,  0.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(0.0f, 1.0f),glm::vec3(0.0f,  1.0f,  0.0f)}};
+  
+ 
     void SetUp()
     {
         glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
@@ -182,8 +184,11 @@ namespace Minecraft::Ch2{
         glEnableVertexAttribArray(1);
 
         glVertexAttribPointer(2,2,GL_FLOAT,GL_FALSE,sizeof(Vertex),(void*)offsetof(Vertex,texcoords));
-        glEnableVertexAttribArray(2);        
-
+        glEnableVertexAttribArray(2);  
+        
+        glVertexAttribPointer(3,3,GL_FLOAT,GL_FALSE,sizeof(Math::Vertex),(void*)offsetof(Vertex,normal));
+        glEnableVertexAttribArray(3);      
+        
         glBindVertexArray(0);
 
     }

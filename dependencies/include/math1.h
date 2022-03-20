@@ -18,5 +18,6 @@ namespace Minecraft
             glm::vec4 color;
             glm::vec3 position;
             glm::vec2 texcoords;
+            glm::vec3 normal;
         };
     }}

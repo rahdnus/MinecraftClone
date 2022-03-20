@@ -28,15 +28,40 @@ out vec4 FragColor;
 uniform vec3 objectColor;
 uniform vec3 lightColor;
 
+in vec3 FragPos;
 in vec4 fColor;
 in vec2 TexCoord;
+in vec3 Normal;
 
+uniform vec3 cameraPos;
+uniform vec3 lightPos;
 uniform sampler2D Texture1;
 uniform sampler2D Texture2;
 void main()
 {
-    FragColor = mix(texture(Texture1,TexCoord),texture(Texture2,TexCoord),0.2)*vec4(lightColor*objectColor,1.0);
+    float ambientStrength = 0.1;
+    vec3 ambient = ambientStrength * lightColor;
+    
+    vec3 norm = normalize(Normal);
+    vec3 lightDir = normalize(lightPos - FragPos);     
+    float diff = max(dot(norm, lightDir), 0.0);
+    vec3 diffuse = diff * lightColor;
+
+    float specularStrength=0.5;
+
+    vec3 viewDir = normalize(cameraPos - FragPos);
+    vec3 reflectDir = reflect(-lightDir, norm);  
+
+
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
+    vec3 specular = specularStrength * spec * lightColor;  
+    
+    vec3 result=(diff+ambient+specular)*objectColor;
+    FragColor=vec4(result,1.0);
+    
+
 })";
+// FragColor = mix(texture(Texture1,TexCoord),texture(Texture2,TexCoord),0.2)*vec4(lightColor*objectColor,1.0);
        const char* lightfragmentShaderSource = R"(
 #version 460 core
 out vec4 FragColor;
@@ -50,10 +75,12 @@ void main()
 layout (location = 0) in vec4 aColor;
 layout (location = 1) in vec3 aPosition;
 layout(location=2) in vec2 aTexCoords;
+layout(location=3) in vec3 aNormal;
 
 out vec4 fColor;
 out vec2 TexCoord;
-
+out vec3 Normal;
+out vec3 FragPos;
 uniform mat4 transform;
 
 uniform mat4 model;
@@ -64,50 +91,53 @@ void main()
 {
     fColor = aColor;
     gl_Position = projection * view * model * vec4(aPosition, 1.0);
+    FragPos=vec3(model*vec4(aPosition,1.0));
     TexCoord=aTexCoords;
+    Normal = mat3(transpose(inverse(model))) * aNormal; 
 })";
-  Math::Vertex vertex[] = {{glm::vec4(1, 1, 0, 1), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 0.0f)},
-                       {glm::vec4(1, 0, 1, 1), glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(1.0f, 0.0f)},
-                       {glm::vec4(0, 1, 1, 1), glm::vec3(0.5f, 0.5f, -0.5f), glm::vec2(1.0f, 1.0f)},
-                       {glm::vec4(1, 1, 0, 1), glm::vec3(0.5f, 0.5f, -0.5f), glm::vec2(1.0f, 1.0f)},
-                       {glm::vec4(1, 0, 1, 1), glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(0.0f, 1.0f)},
-                       {glm::vec4(0, 1, 1, 1), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 0.0f)},
+  Math::Vertex vertex[] = {{glm::vec4(1, 1, 0, 1), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 0.0f),glm::vec3(0.0f,  0.0f, -1.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(1.0f, 0.0f),glm::vec3(  0.0f,  0.0f, -1.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(0.5f, 0.5f, -0.5f), glm::vec2(1.0f, 1.0f),glm::vec3(0.0f,  0.0f, -1.0f)},
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(0.5f, 0.5f, -0.5f), glm::vec2(1.0f, 1.0f),glm::vec3(0.0f,  0.0f, -1.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(0.0f, 1.0f),glm::vec3(0.0f,  0.0f, -1.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 0.0f),glm::vec3(0.0f,  0.0f, -1.0f)},
 
-                       {glm::vec4(1, 1, 0, 1), glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0f, 0.0f)},
-                       {glm::vec4(1, 0, 1, 1), glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(1.0f, 0.0f)},
-                       {glm::vec4(0, 1, 1, 1), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 1.0f)},
-                       {glm::vec4(1, 1, 0, 1), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 1.0f)},
-                       {glm::vec4(1, 0, 1, 1), glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(0.0f, 1.0f)},
-                       {glm::vec4(0, 1, 1, 1), glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0f, 0.0f)},
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0f, 0.0f),glm::vec3(0.0f,  0.0f, 1.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(1.0f, 0.0f),glm::vec3(0.0f,  0.0f, 1.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 1.0f),glm::vec3(0.0f,  0.0f, 1.0f)},
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 1.0f),glm::vec3(0.0f,  0.0f, 1.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(0.0f, 1.0f),glm::vec3(0.0f,  0.0f, 1.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0f, 0.0f),glm::vec3(0.0f,  0.0f, 1.0f)},
 
-                       {glm::vec4(1, 1, 0, 1), glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 0.0f)},
-                       {glm::vec4(1, 0, 1, 1), glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(1.0f, 1.0f)},
-                       {glm::vec4(0, 1, 1, 1), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 1.0f)},
-                       {glm::vec4(1, 1, 0, 1), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 1.0f)},
-                       {glm::vec4(1, 0, 1, 1), glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0f, 0.0f)},
-                       {glm::vec4(0, 1, 1, 1), glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 0.0f)},
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 0.0f),glm::vec3(1.0f,  0.0f,  0.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(1.0f, 1.0f),glm::vec3(1.0f,  0.0f,  0.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 1.0f),glm::vec3(1.0f,  0.0f,  0.0f)},
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 1.0f),glm::vec3(1.0f,  0.0f,  0.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0f, 0.0f),glm::vec3(1.0f,  0.0f,  0.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 0.0f),glm::vec3(1.0f,  0.0f,  0.0f)},
 
-                       {glm::vec4(1, 1, 0, 1), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 0.0f)},
-                       {glm::vec4(1, 0, 1, 1), glm::vec3(0.5f, 0.5f, -0.5f), glm::vec2(1.0f, 1.0f)},
-                       {glm::vec4(0, 1, 1, 1), glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 1.0f)},
-                       {glm::vec4(1, 1, 0, 1), glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 1.0f)},
-                       {glm::vec4(1, 0, 1, 1), glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(0.0f, 0.0f)},
-                       {glm::vec4(0, 1, 1, 1), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 0.0f)},
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 0.0f),glm::vec3(1.0f,  0.0f,  0.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(0.5f, 0.5f, -0.5f), glm::vec2(1.0f, 1.0f),glm::vec3(1.0f,  0.0f,  0.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 1.0f),glm::vec3(1.0f,  0.0f,  0.0f)},
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 1.0f),glm::vec3(1.0f,  0.0f,  0.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(0.0f, 0.0f),glm::vec3(1.0f,  0.0f,  0.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 0.0f),glm::vec3(1.0f,  0.0f,  0.0f)},
 
-                       {glm::vec4(1, 1, 0, 1), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 1.0f)},
-                       {glm::vec4(1, 0, 1, 1), glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(1.0f, 1.0f)},
-                       {glm::vec4(0, 1, 1, 1), glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(1.0f, 0.0f)},
-                       {glm::vec4(1, 1, 0, 1), glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(1.0f, 0.0f)},
-                       {glm::vec4(1, 0, 1, 1), glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0f, 0.0f)},
-                       {glm::vec4(0, 1, 1, 1), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 1.0f)},
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 1.0f),glm::vec3(0.0f, -1.0f,  0.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(1.0f, 1.0f),glm::vec3(0.0f, -1.0f,  0.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(1.0f, 0.0f),glm::vec3(0.0f, -1.0f,  0.0f)},
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(1.0f, 0.0f),glm::vec3(0.0f, -1.0f,  0.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0f, 0.0f),glm::vec3(0.0f, -1.0f,  0.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0f, 1.0f),glm::vec3(0.0f, -1.0f,  0.0f)},
 
-                       {glm::vec4(1, 1, 0, 1), glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(0.0f, 1.0f)},
-                       {glm::vec4(1, 0, 1, 1), glm::vec3(0.5f, 0.5f, -0.5f), glm::vec2(1.0f, 1.0f)},
-                       {glm::vec4(0, 1, 1, 1), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 0.0f)},
-                       {glm::vec4(1, 1, 0, 1), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 0.0f)},
-                       {glm::vec4(1, 0, 1, 1), glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(0.0f, 0.0f)},
-                       {glm::vec4(0, 1, 1, 1), glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(0.0f, 1.0f)}};
-
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(0.0f, 1.0f),glm::vec3(0.0f,  1.0f,  0.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(0.5f, 0.5f, -0.5f), glm::vec2(1.0f, 1.0f),glm::vec3(0.0f,  1.0f,  0.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 0.0f),glm::vec3(0.0f,  1.0f,  0.0f)},
+                       {glm::vec4(1, 1, 0, 1), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec2(1.0f, 0.0f),glm::vec3(0.0f,  1.0f,  0.0f)},
+                       {glm::vec4(1, 0, 1, 1), glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(0.0f, 0.0f),glm::vec3(0.0f,  1.0f,  0.0f)},
+                       {glm::vec4(0, 1, 1, 1), glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(0.0f, 1.0f),glm::vec3(0.0f,  1.0f,  0.0f)}};
+  
+ 
     glm::vec3 CameraPos{0,0,10};
     glm::vec3 CameraCenter{0,0,-1};
     glm::vec3 CameraUp{0,1,0};
@@ -141,6 +171,8 @@ void main()
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);  
         // Ch1::SetUp();
         Ch2::SetUp();
+            glUniform3f(glGetUniformLocation(shader.programId, "lightPos"),10,10,10);
+
          light.bind();
         glCreateVertexArrays(1,&VAO);
         glBindVertexArray(VAO);
@@ -158,6 +190,7 @@ void main()
         glVertexAttribPointer(2,2,GL_FLOAT,GL_FALSE,sizeof(Math::Vertex),(void*)offsetof(Math::Vertex,texcoords));
         glEnableVertexAttribArray(2);  
         glBindVertexArray(0);
+
         // Ch3::SetUp();
         // Ch4::SetUp();
         return 1;
@@ -165,6 +198,7 @@ void main()
 
     void Run()
     {
+
         glEnable(GL_DEPTH_TEST); 
         while (!glfwWindowShouldClose(window))
         {
@@ -190,6 +224,8 @@ void main()
 
             glUniform3f(glGetUniformLocation(shader.programId, "objectColor"),0.5f,0.5f,0.7f);
             glUniform3f(glGetUniformLocation(shader.programId, "lightColor"),1.0f,1.0f,0.2f);
+            glUniform3f(glGetUniformLocation(shader.programId,"cameraPos"),CameraPos.x,CameraPos.y,CameraPos.z);
+        
             Ch2::Bind();
             
             for (unsigned int i = 1; i < 10; i++)
@@ -208,10 +244,11 @@ void main()
             glBindVertexArray(VAO);
             viewLoc = glGetUniformLocation(light.programId, "view");
             glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+
             projectionLoc = glGetUniformLocation(light.programId, "projection");
             glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
-            glUniform1i(glGetUniformLocation(light.programId, "Texture1"), 0);
-            glUniform1i(glGetUniformLocation(light.programId, "Texture2"), 1);
+            // glUniform1i(glGetUniformLocation(light.programId, "Texture1"), 0);
+            // glUniform1i(glGetUniformLocation(light.programId, "Texture2"), 1);
                 glm::mat4 model = glm::mat4(1.0f);
                 model = glm::translate(model, glm::vec3{10,10,10});
                 float angle = 20.0f ;
