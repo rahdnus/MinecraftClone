@@ -7,6 +7,6 @@ int main()
     Application::Init();
     Application::Run();
     
-    return 0;
+    return 1;
 }
 
