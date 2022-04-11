@@ -10,7 +10,9 @@
                 "${file}",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
-                "-I${workspaceRoot}/dependencies"
+                "-I${workspaceRoot}/dependencies",
+                "-I${workspaceRoot}/dependencies/GLEW/include",
+                "-I${workspaceRoot}/dependencies/GLFW/include",
             ],
             "options": {
                 "cwd": "${fileDirname}"
