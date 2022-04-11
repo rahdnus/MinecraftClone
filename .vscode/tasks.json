@@ -13,6 +13,12 @@
                 "-I${workspaceRoot}/dependencies",
                 "-I${workspaceRoot}/dependencies/GLEW/include",
                 "-I${workspaceRoot}/dependencies/GLFW/include",
+                "-lopengl32",
+				"-static",
+				"-lglfw3dll",
+				
+				"-o",
+				"${workspaceRoot}/Builds/main"	
             ],
             "options": {
                 "cwd": "${fileDirname}"
