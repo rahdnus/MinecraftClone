@@ -7,11 +7,9 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "${file}",
-                
-				"${workspaceRoot}/dependencies/GLAD/src/glad.c",
 				"${workspaceRoot}/src/**.cpp",
-				// "${workspaceRoot}/src/core/**.cpp",
+				"${workspaceRoot}/dependencies/GLAD/src/glad.c",
+                
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
                 "-I${workspaceRoot}/dependencies",

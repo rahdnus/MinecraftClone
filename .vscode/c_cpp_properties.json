@@ -4,7 +4,7 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/dependencies/GLEW/include",
+                "${workspaceFolder}/dependencies/GLAD/include",
                 "${workspaceFolder}/dependencies/GLFW/include"
             ],
             "defines": [

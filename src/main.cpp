@@ -8,7 +8,6 @@ int main()
     if(!glfwInit())
         return -1;
  
-    gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
    GLFWwindow* window=glfwCreateWindow(500,500,"New Project :(",NULL,NULL);
     if(!window)
     {
@@ -17,6 +16,8 @@ int main()
         return -1;
     }
     glfwMakeContextCurrent(window);
+    gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+    
     while(!glfwWindowShouldClose(window))
     {
         glClear(GL_COLOR_BUFFER_BIT);
