@@ -8,6 +8,7 @@ int main()
     if(!glfwInit())
         return -1;
  
+    gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
    GLFWwindow* window=glfwCreateWindow(500,500,"New Project :(",NULL,NULL);
     if(!window)
     {

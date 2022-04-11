@@ -17,7 +17,9 @@
 				"-static",
 				"-lglfw3dll",
 				"-L${workspaceRoot}/dependencies/GLFW/lib-mingw",
-				
+				 "-lglfw3",
+                 "-lopengl32",
+
 				"-o",
 				"${workspaceRoot}/Builds/main"	
             ],
