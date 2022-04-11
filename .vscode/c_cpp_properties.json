@@ -12,6 +12,11 @@
                 "UNICODE",
                 "_UNICODE"
             ],
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/dependencies/GLFW/lib-mingw"
+                ]
+            },
             "windowsSdkVersion": "10.0.17763.0",
             "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64/cl.exe",
             "cStandard": "c17",
