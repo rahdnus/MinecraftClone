@@ -17,13 +17,45 @@ bool Shader::compile(ShaderType type,const char* path)
     filepath[sourcelength]='\0';
 
     const char *source=readPath(filepath);
-    /* TODORead data from path and give it to glshadersource*/
 
     glShaderSource(ID,1,&source,0);
     glCompileShader(ID);
 
-    return false;
+    GLint iscompiled=GL_FALSE;
+    glGetShaderiv(ID,GL_COMPILE_STATUS,&iscompiled);
 
+    if(iscompiled==GL_FALSE)
+    {
+          /*TODO 
+        ✅log potential errors*/
+        GLint maxlength;
+        glGetShaderiv(ID,GL_INFO_LOG_LENGTH,&maxlength);
+
+        std::vector<GLchar> info(maxlength);
+        glGetShaderInfoLog(ID,maxlength,&maxlength,&info[0]);
+        glDeleteShader(ID);
+        ID=UINT32_MAX;
+
+        printf("Shader Compilation Failed:%s",info.data());
+        return false;
+
+    }
+  
+    return true;
+
+}
+void Shader::destroy()
+{
+    if(ID!=UINT32_MAX)
+    {
+        glDeleteShader(ID);
+        ID=UINT32_MAX;
+    }
+    if(filepath!=nullptr)
+    {
+        free(filepath);
+        filepath=nullptr;
+    }
 }
 GLenum Shader::toGLenumType(ShaderType type)
 {
