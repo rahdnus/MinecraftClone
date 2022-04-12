@@ -5,7 +5,9 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/dependencies/GLAD/include",
-                "${workspaceFolder}/dependencies/GLFW/include"
+                "${workspaceFolder}/dependencies/GLFW/include",
+                "${workspaceFolder}/dependencies/include"
+
             ],
             "defines": [
                 "_DEBUG",

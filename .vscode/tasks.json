@@ -17,6 +17,8 @@
                 "-I${workspaceRoot}/dependencies",
                 "-I${workspaceRoot}/dependencies/GLAD/include",
                 "-I${workspaceRoot}/dependencies/GLFW/include",
+                "-I${workspaceRoot}/dependencies/include",
+
                 "-lopengl32",
 				"-static",
 				"-lglfw3dll",

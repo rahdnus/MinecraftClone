@@ -1,9 +1,9 @@
 
-#include<Application.hpp>
+#include<core/Application.hpp>
 
-using namespace App;
+using namespace Core;
 
-int Application::WindowInit(GLuint width,GLuint height,std::string name)
+int Application::windowInit(GLuint width,GLuint height,std::string name)
 {
 
     mywindow=glfwCreateWindow(width,height,name.c_str(),NULL,NULL);
@@ -16,7 +16,7 @@ int Application::WindowInit(GLuint width,GLuint height,std::string name)
 
     gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 }
-int Application::Run()
+int Application::run()
 {
     while(!glfwWindowShouldClose(mywindow))
     {

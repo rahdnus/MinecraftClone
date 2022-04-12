@@ -1,14 +1,14 @@
-#include<Application.hpp>
+#include<core/Application.hpp>
 
 int main()
 {
-    App::Application app;
+    Core::Application app;
 
     if(!glfwInit())
         return -1;
 
-    app.WindowInit(500,500,"Yes");
+    app.windowInit(500,500,"Yes");
     
-    app.Run();
+    app.run();
     return 0;
 }
