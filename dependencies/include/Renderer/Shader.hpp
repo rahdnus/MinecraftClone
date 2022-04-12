@@ -1,6 +1,8 @@
 #pragma once
 
 #include<core.hpp>
+#include<fstream>
+#include<cstring>
 
 namespace Core{namespace Shaders {
 
@@ -11,7 +13,8 @@ namespace Core{namespace Shaders {
     
     class Shader 
     {
-       char* readPath;
+       char* filepath;
+       GLint ID;
        public:
         bool compile(ShaderType type,const char* path);
         void destroy();
