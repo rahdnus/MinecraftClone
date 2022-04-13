@@ -1,41 +1,54 @@
 #include<Renderer/ShaderProgram.hpp>
 
-using namespace Core;
+
+
+namespace Core
+{
+
+struct ShaderVariable{
+    GLint varlocation;
+    std::string name;
+    uint32_t ID;
+
+    bool operator==(const ShaderVariable& other)const 
+    {
+        return other.ID==ID && other.name==name;
+    }
+};
+
+static std::unordered_set<ShaderVariable> allShaderVariableLocations;
 
 bool ShaderProgram::compile(const char* vertexPath,const char* fragmentPath)
 {
-    
-    
-   bool vresult= vertexShader.compile(ShaderType::Vertex,vertexPath);
-    if(!vresult)
+    GLint programID=glCreateProgram();
+
+    if(!vertexShader.compile(ShaderType::Vertex,vertexPath))
     {
         vertexShader.destroy();
         return false;
     }
 
-    bool fresult=fragmentShader.compile(ShaderType::Fragment,fragmentPath);
-    if(!fresult)
+    if(!fragmentShader.compile(ShaderType::Fragment,fragmentPath))
     {
         fragmentShader.destroy();
         return false;
     }
 
-    ID=glCreateProgram();
 
-    glAttachShader(ID,vertexShader.ID);
-    glAttachShader(ID,fragmentShader.ID);
-    glLinkProgram(ID);
+    glAttachShader(programID,vertexShader.ID);
+    glAttachShader(programID,fragmentShader.ID);
+    glLinkProgram(programID);
 
 
     GLint islinked=GL_FALSE;
-    glGetProgramiv(ID,GL_LINK_STATUS,&islinked);
+    glGetProgramiv(programID,GL_LINK_STATUS,&islinked);
     if(islinked==GL_FALSE)
     {
         GLint length;
-        glGetProgramiv(ID,GL_INFO_LOG_LENGTH,&length);
+        glGetProgramiv(programID,GL_INFO_LOG_LENGTH,&length);
 
         std::vector<GLchar> info(length);
-        glGetProgramInfoLog(ID,length,&length,&info[0]);
+        glGetProgramInfoLog(programID,length,&length,&info[0]);
 
         // glDetachShader(ID,vertexShader.ID);
         // glDetachShader(ID,fragmentShader.ID);
@@ -44,22 +57,22 @@ bool ShaderProgram::compile(const char* vertexPath,const char* fragmentPath)
         fragmentShader.destroy();
 
         printf("Shader Program Linking Failed:%s",info);
-        ID=UINT32_MAX;
+        programID=UINT32_MAX;
         return false;
     }
 
-    glDetachShader(ID,vertexShader.ID);
-    glDetachShader(ID,fragmentShader.ID);
+    glDetachShader(programID,vertexShader.ID);
+    glDetachShader(programID,fragmentShader.ID);
     
     vertexShader.destroy();
     fragmentShader.destroy();
 
 
     int numofUniforms;
-    glGetProgramiv(ID,GL_ACTIVE_UNIFORMS,&numofUniforms);
+    glGetProgramiv(programID,GL_ACTIVE_UNIFORMS,&numofUniforms);
 
     int maxCharLength;
-    glGetProgramiv(ID,GL_ACTIVE_UNIFORM_MAX_LENGTH,&maxCharLength);
+    glGetProgramiv(programID,GL_ACTIVE_UNIFORM_MAX_LENGTH,&maxCharLength);
 
     if(numofUniforms>0 && maxCharLength>0)
     {
@@ -67,10 +80,22 @@ bool ShaderProgram::compile(const char* vertexPath,const char* fragmentPath)
 
         for(int i=0;i<numofUniforms;i++)
         {
-            
+            int length,size;
+            GLenum type;
+            glGetActiveUniform(programID,i,maxCharLength,&length,&size,&type,&uniformBuffer[0]);
+            GLint location=glGetUniformLocation(programID,uniformBuffer);
+            ShaderVariable variable;
+            variable.name=std::string(uniformBuffer);
+            variable.varlocation=location;
+            variable.ID=programID;
+            allShaderVariableLocations.emplace(variable);
         }
+        free(uniformBuffer);
     }
+    ID=programID;
+    printf("Shader compilation and Linking successful <Vertex:%s><Fragment:%s>",vertexPath,fragmentPath);
+    return true;
 
 
-
+}
 }
