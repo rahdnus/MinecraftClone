@@ -34,7 +34,7 @@ namespace Minecraft{
 	static std::unordered_set<ShaderVariable> allShaderVariableLocations;
 
 	// Forward Declarations
-	static GLint getVariableLocation(const ShaderProgram::ShaderProgram& shader, const char* varName);
+	static GLint getVariableLocation(const ShaderProgram& shader, const char* varName);
 
 	bool ShaderProgram::compileAndlink(const char* vertexShaderFile, const char* fragmentShaderFile)
 	{
