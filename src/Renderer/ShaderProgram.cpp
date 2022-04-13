@@ -1,4 +1,5 @@
 #include<Renderer/ShaderProgram.hpp>
+#include<unordered_set>
 
 
 namespace Core
@@ -89,7 +90,7 @@ bool ShaderProgram::compile(const char* vertexPath,const char* fragmentPath)
             shaderVar.varlocation=location;
             shaderVar.ID=programID;
             
-            allShaderVariableLocations.emplace(shaderVar);//wtf it works in old-state branch
+            // allShaderVariableLocations.emplace(shaderVar);//wtf it works in old-state branch
         }
         free(uniformBuffer);
     }
