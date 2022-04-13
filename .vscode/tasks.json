@@ -7,13 +7,12 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                
+                "--std=c++17",
 				"${workspaceRoot}/src/**.cpp",
 				"${workspaceRoot}/src/**/**.cpp",
 				"${workspaceRoot}/dependencies/GLAD/src/glad.c",
+
                 
-                "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe",
                 "-I${workspaceRoot}/dependencies",
                 "-I${workspaceRoot}/dependencies/GLAD/include",
                 "-I${workspaceRoot}/dependencies/GLFW/include",
