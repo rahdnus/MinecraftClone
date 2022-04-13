@@ -14,8 +14,8 @@ namespace Core{
     class Shader 
     {
        char* filepath;
-       GLint ID;
        public:
+        GLint ID;
         bool compile(ShaderType type,const char* path);
         void destroy();
         static GLenum toGLenumType(ShaderType type);

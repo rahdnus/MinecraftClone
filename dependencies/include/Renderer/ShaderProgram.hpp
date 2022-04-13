@@ -1,18 +1,19 @@
 #pragma once
 
 #include<core.hpp>
-#include<Shader.hpp>
+#include<Renderer/Shader.hpp>
+
 namespace Core{
 
     class ShaderProgram
     {
-        GLint ID;
+        uint32_t ID;
         Shader vertexShader,fragmentShader;
         public:
 
         bool compile(const char* vertexPath,const char* fragmentPath);
-        void link();
-
+        void bind();
+        void unbind();
         
     };
 
