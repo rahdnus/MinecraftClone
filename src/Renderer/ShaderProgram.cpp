@@ -1,7 +1,6 @@
 #include<Renderer/ShaderProgram.hpp>
 
 
-
 namespace Core
 {
 
@@ -10,7 +9,7 @@ struct ShaderVariable{
     std::string name;
     uint32_t ID;
 
-    bool operator==(const ShaderVariable& other)const 
+    bool operator==(const ShaderVariable& other) const 
     {
         return other.ID==ID && other.name==name;
     }
@@ -84,11 +83,13 @@ bool ShaderProgram::compile(const char* vertexPath,const char* fragmentPath)
             GLenum type;
             glGetActiveUniform(programID,i,maxCharLength,&length,&size,&type,&uniformBuffer[0]);
             GLint location=glGetUniformLocation(programID,uniformBuffer);
-            ShaderVariable variable;
-            variable.name=std::string(uniformBuffer);
-            variable.varlocation=location;
-            variable.ID=programID;
-            allShaderVariableLocations.emplace(variable);
+            ShaderVariable shaderVar;
+
+            shaderVar.name=std::string(uniformBuffer);
+            shaderVar.varlocation=location;
+            shaderVar.ID=programID;
+            
+            allShaderVariableLocations.emplace(shaderVar);//wtf it works in old-state branch
         }
         free(uniformBuffer);
     }
