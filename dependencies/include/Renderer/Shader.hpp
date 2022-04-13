@@ -4,7 +4,7 @@
 #include<fstream>
 #include<cstring>
 #include<vector>
-namespace Core{namespace Shaders {
+namespace Core{
 
     enum class ShaderType:uint8_t
     {
@@ -21,5 +21,4 @@ namespace Core{namespace Shaders {
         static GLenum toGLenumType(ShaderType type);
     };
 
-}
 }

@@ -1,6 +1,6 @@
 #include<Renderer/Shader.hpp>
 
-using namespace Core::Shaders;
+using namespace Core;
 
 static const char* readPath(const char* path);
 
@@ -88,4 +88,5 @@ static const char* readPath(const char* path)
         printf("Could not open file path:%s",path);
     }
     return source.c_str();
+
 }
