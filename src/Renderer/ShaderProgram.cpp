@@ -6,17 +6,25 @@ namespace Core
 {
 
 struct ShaderVariable{
-    GLint varlocation;
     std::string name;
+    GLint varLocation;
     uint32_t ID;
-
     bool operator==(const ShaderVariable& other) const 
     {
-        return other.ID==ID && other.name==name;
+        return( other.ID==ID && other.name==name);
     }
 };
-
-static std::unordered_set<ShaderVariable> allShaderVariableLocations;
+ struct hashShaderVar
+	{
+		std::size_t operator()(const ShaderVariable& key) const
+		{
+			// This code was adapted from https://stackoverflow.com/questions/35985960/c-why-is-boosthash-combine-the-best-way-to-combine-hash-values
+			std::size_t seed = std::hash<std::string>()(key.name);
+			seed ^= std::hash<uint32_t>()(key.ID) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+			return seed;
+		}
+    };
+static std::unordered_set<ShaderVariable,hashShaderVar> allShaderVariableLocations;
 
 bool ShaderProgram::compile(const char* vertexPath,const char* fragmentPath)
 {
@@ -87,9 +95,9 @@ bool ShaderProgram::compile(const char* vertexPath,const char* fragmentPath)
             ShaderVariable shaderVar;
 
             shaderVar.name=std::string(uniformBuffer);
-            shaderVar.varlocation=location;
+            shaderVar.varLocation=location;
             shaderVar.ID=programID;
-            
+      
             // allShaderVariableLocations.emplace(shaderVar);//wtf it works in old-state branch
         }
         free(uniformBuffer);
@@ -97,7 +105,22 @@ bool ShaderProgram::compile(const char* vertexPath,const char* fragmentPath)
     ID=programID;
     printf("Shader compilation and Linking successful <Vertex:%s><Fragment:%s>",vertexPath,fragmentPath);
     return true;
-
+    
 
 }
+// static GLint getVariableLocation(const ShaderProgram& shader, const char* varName)
+// 	{
+// 		ShaderVariable match = {
+// 			varName,
+// 			0,
+// 			shader.ID
+// 		};
+// 		auto iter = allShaderVariableLocations.find(match);
+// 		if (iter != allShaderVariableLocations.end())
+// 		{
+// 			return iter->varLocation;
+// 		}
+
+// 		return -1;
+// 	}
 }

@@ -7,9 +7,9 @@ namespace Core{
 
     class ShaderProgram
     {
-        uint32_t ID;
         Shader vertexShader,fragmentShader;
         public:
+        uint32_t ID;
 
         bool compile(const char* vertexPath,const char* fragmentPath);
         void bind();
