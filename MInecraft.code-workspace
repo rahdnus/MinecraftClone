@@ -54,7 +54,13 @@
 			"xlocnum": "cpp",
 			"xmemory": "cpp",
 			"xstring": "cpp",
-			"xutility": "cpp"
+			"xutility": "cpp",
+			"array": "cpp",
+			"*.tcc": "cpp",
+			"cwctype": "cpp",
+			"unordered_map": "cpp",
+			"functional": "cpp",
+			"sstream": "cpp"
 		}
 	}
 }

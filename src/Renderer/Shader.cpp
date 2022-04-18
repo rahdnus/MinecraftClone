@@ -1,8 +1,8 @@
 #include<Renderer/Shader.hpp>
-
+#include<stdio.h>
 using namespace Core;
 
-static const char* readPath(const char* path);
+std::string readPath(const char* path);
 
 bool Shader::compile(ShaderType type,const char* path)
 {
@@ -17,7 +17,8 @@ bool Shader::compile(ShaderType type,const char* path)
     filepath[sourcelength]='\0';
 
    std::string source=readPath(filepath);
-  const GLchar* sourcecode=source.c_str();
+//    printf("%s",source);
+   const GLchar* sourcecode=source.c_str();
 
     glShaderSource(ID,1,&sourcecode,0);
     glCompileShader(ID);
@@ -71,7 +72,7 @@ GLenum Shader::toGLenumType(ShaderType type)
     }
 }
 
-static const char* readPath(const char* path)
+std::string readPath(const char* path)
 {
     std::string source;
     std::ifstream in(path,std::ios::in|std::ios::binary);
@@ -88,8 +89,8 @@ static const char* readPath(const char* path)
     {
         printf("Could not open file path:%s",path);
     }
-    source.resize(source.length()+1);
-    source[source.length()]='\0';
-    return source.c_str();
+    // source.resize(source.length()+1);
+    // source[source.length()]='\0';
+    return source;
 
 }
