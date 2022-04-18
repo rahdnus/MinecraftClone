@@ -28,8 +28,7 @@ static std::unordered_set<ShaderVariable,hashShaderVar> allShaderVariableLocatio
 
 bool ShaderProgram::compile(const char* vertexPath,const char* fragmentPath)
 {
-    GLint programID=glCreateProgram();
-
+    GLuint programID=glCreateProgram();
     if(!vertexShader.compile(ShaderType::Vertex,vertexPath))
     {
         vertexShader.destroy();
@@ -98,7 +97,7 @@ bool ShaderProgram::compile(const char* vertexPath,const char* fragmentPath)
             shaderVar.varLocation=location;
             shaderVar.ID=programID;
       
-            // allShaderVariableLocations.emplace(shaderVar);//wtf it works in old-state branch
+            allShaderVariableLocations.emplace(shaderVar);//wtf it works in old-state branch
         }
         free(uniformBuffer);
     }
@@ -108,19 +107,23 @@ bool ShaderProgram::compile(const char* vertexPath,const char* fragmentPath)
     
 
 }
-// static GLint getVariableLocation(const ShaderProgram& shader, const char* varName)
-// 	{
-// 		ShaderVariable match = {
-// 			varName,
-// 			0,
-// 			shader.ID
-// 		};
-// 		auto iter = allShaderVariableLocations.find(match);
-// 		if (iter != allShaderVariableLocations.end())
-// 		{
-// 			return iter->varLocation;
-// 		}
+void ShaderProgram::bind()
+{
+    glUseProgram(ID);
+}
+static GLint getVariableLocation(const ShaderProgram& shader, const char* varName)
+	{
+		ShaderVariable match = {
+			varName,
+			0,
+			shader.ID
+		};
+		auto iter = allShaderVariableLocations.find(match);
+		if (iter != allShaderVariableLocations.end())
+		{
+			return iter->varLocation;
+		}
 
-// 		return -1;
-// 	}
+		return -1;
+	}
 }

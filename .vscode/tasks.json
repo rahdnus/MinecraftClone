@@ -8,8 +8,9 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "--std=c++17",
-				"${workspaceRoot}/src/**.cpp",
-				"${workspaceRoot}/src/**/**.cpp",
+				"${workspaceRoot}/src/main.cpp",
+				"${workspaceRoot}/src/core/**.cpp",
+				"${workspaceRoot}/src/Renderer/**.cpp",
 				"${workspaceRoot}/dependencies/GLAD/src/glad.c",
 
                 

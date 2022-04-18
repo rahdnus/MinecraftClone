@@ -16,9 +16,10 @@ bool Shader::compile(ShaderType type,const char* path)
     std::strcpy(filepath,path);
     filepath[sourcelength]='\0';
 
-    const char *source=readPath(filepath);
+   std::string source=readPath(filepath);
+  const GLchar* sourcecode=source.c_str();
 
-    glShaderSource(ID,1,&source,0);
+    glShaderSource(ID,1,&sourcecode,0);
     glCompileShader(ID);
 
     GLint iscompiled=GL_FALSE;
@@ -87,6 +88,8 @@ static const char* readPath(const char* path)
     {
         printf("Could not open file path:%s",path);
     }
+    source.resize(source.length()+1);
+    source[source.length()]='\0';
     return source.c_str();
 
 }
