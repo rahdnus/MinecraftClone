@@ -42,7 +42,8 @@ int Application::windowInit(GLuint width,GLuint height,std::string name)
     glBindBuffer(GL_ARRAY_BUFFER,VBO_ID);
     
     glBufferData(GL_ARRAY_BUFFER,sizeof(vertex),vertex,GL_STATIC_DRAW);
-    glCreateBuffers(1,&EBO_ID);
+
+    glCreateBuffers(1,&EBO_ID);    
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,EBO_ID);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER,sizeof(indices),indices,GL_STATIC_DRAW);
     
