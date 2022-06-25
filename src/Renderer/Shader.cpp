@@ -1,6 +1,6 @@
 #include<Renderer/Shader.hpp>
 #include<stdio.h>
-using namespace Core;
+using namespace Engine;
 
 std::string readPath(const char* path);
 

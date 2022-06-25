@@ -1,3 +1,9 @@
 {
-    "cmake.configureOnOpen": false
+    "cmake.configureOnOpen": false,
+    "files.associations": {
+        "ostream": "cpp",
+        "*.tcc": "cpp",
+        "iterator": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
 }

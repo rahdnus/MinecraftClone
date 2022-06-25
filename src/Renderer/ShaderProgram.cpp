@@ -2,7 +2,7 @@
 #include<unordered_set>
 
 
-namespace Core
+namespace Engine
 {
 
 struct ShaderVariable{

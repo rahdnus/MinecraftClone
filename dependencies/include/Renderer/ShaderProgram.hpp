@@ -3,7 +3,7 @@
 #include<core.hpp>
 #include<Renderer/Shader.hpp>
 #include<glm.hpp>
-namespace Core{
+namespace Engine{
 
     class ShaderProgram
     {

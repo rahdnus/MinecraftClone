@@ -1,8 +1,9 @@
 
 #include<core/Application.hpp>
 #include<Renderer/ShaderProgram.hpp>
+#include<core/Object.hpp>
 
-using namespace Core;
+using namespace Engine;
 
     GLuint VAO_ID,VBO_ID,EBO_ID;
 
