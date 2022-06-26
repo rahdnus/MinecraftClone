@@ -1,6 +1,7 @@
 #pragma once
 #include <core.hpp>
 #include <math1.h>
+#include<Renderer/ShaderProgram.hpp>
 
 namespace Engine
 {
@@ -13,14 +14,18 @@ namespace Engine
     struct Mesh
     {
         private:
-        GLuint VAO_ID, VBO_ID, EBO_ID;
-        struct Vertex *vertex;
-        GLuint *indices;
+   
         public:
-            Mesh(Vertex *vertex,GLuint *indices)
+             GLuint VAO_ID, VBO_ID, EBO_ID;
+            struct Vertex *vertex;
+            GLuint *indices;
+            ShaderProgram shaderProgram;
+
+            Mesh(Vertex *vertex,GLuint *indices,ShaderProgram shaderProgram)
             {
                 this->vertex=vertex;
                 this->indices=indices;
+                this->shaderProgram=shaderProgram;
             }
             void Init();
             void Bind();

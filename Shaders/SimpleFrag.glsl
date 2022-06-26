@@ -11,5 +11,6 @@ void main()
     vec2 st=gl_FragCoord.xy/resolution.xy;
     
     vec3 newcolor=mix(colorA,colorB,0.7);
+    // vec3 newcolor=fColor.xyz;
     FragColor=vec4(newcolor,1.0);
 }

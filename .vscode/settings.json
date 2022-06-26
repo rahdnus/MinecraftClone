@@ -3,7 +3,9 @@
     "files.associations": {
         "ostream": "cpp",
         "*.tcc": "cpp",
-        "iterator": "cpp"
+        "iterator": "cpp",
+        "functional": "cpp",
+        "new": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
