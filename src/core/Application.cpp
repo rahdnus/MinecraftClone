@@ -11,10 +11,17 @@ struct MEGA
     GLuint VAO_ID, VBO_ID, EBO_ID;
     Vertex* vertex;
     GLuint* indices;
-    MEGA(Vertex* vertex, GLuint* indices)
+    int Vno,Ino;
+    MEGA(Vertex* vertex,int Vno, GLuint* indices,int Ino)
     {
         this->vertex=vertex;
         this->indices=indices;
+        this->Vno=Vno;
+        this->Ino=Ino;
+        // printf("\nLENGTH:%d\n",Vno);
+        // printf("\nLENGTH:%d\n",Ino);
+
+
         // vertex=(Vertex*)malloc(sizeof(Vertex)*4);
         // vertex[0] = {glm::vec3(0.5f, 0.5f, 0), glm::vec4(1, 0, 1, 1)};
         // vertex[1] = {glm::vec3(-0.5f, 0.5f, 0), glm::vec4(1, 0, 1, 1)};
@@ -58,7 +65,7 @@ int Application::run()
         1, 2, 3};
     // Mesh *mesh=new Mesh(vertex, indices);
     // mesh->Init();
-    MEGA m(vertex,indices);
+    MEGA m(vertex,sizeof(vertex)/sizeof(Vertex),indices,sizeof(indices)/sizeof(GLuint));
 
     glCreateVertexArrays(1, &m.VAO_ID);
     glBindVertexArray(m.VAO_ID);
@@ -66,10 +73,9 @@ int Application::run()
     glCreateBuffers(1, &m.VBO_ID);
     glBindBuffer(GL_ARRAY_BUFFER, m.VBO_ID);
 
-    int vertlength=sizeof(m.vertex);
 
-    Vertex Vertices[vertlength];
-    for(int i=0;i<vertlength;i++)
+    Vertex Vertices[m.Vno];
+    for(int i=0;i<m.Vno;i++)
     {
         Vertices[i]=m.vertex[i];
     }
@@ -77,10 +83,8 @@ int Application::run()
 
     glCreateBuffers(1, &m.EBO_ID);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m.EBO_ID);
-    int indlength=sizeof(m.indices);
-    printf("\nLENGTH:%d",indlength);
-    GLuint Indices[indlength];
-    for(int i=0;i<indlength;i++)
+    GLuint Indices[m.Ino];
+    for(int i=0;i<m.Ino;i++)
     {
         Indices[i]=m.indices[i];
     }
