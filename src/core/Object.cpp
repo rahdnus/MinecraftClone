@@ -3,8 +3,6 @@ using namespace Engine;
 
 void Mesh::Init()
 {
-    shaderProgram.compile("Shaders/SimpleVert.glsl","Shaders/SimpleFrag.glsl");
-
     glCreateVertexArrays(1,&VAO_ID);
     glBindVertexArray(VAO_ID);
     
@@ -28,10 +26,12 @@ void Mesh::Init()
 }
 void Mesh::Bind()
 {
-    shaderProgram.bind();
     glBindVertexArray(VAO_ID);
 }
 void Mesh::Draw()
 {
     glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
+    // GLint data;
+    // glGetIntegerv( GL_VERTEX_ARRAY_BINDING,&data);
+    // printf("%d",data);
 }

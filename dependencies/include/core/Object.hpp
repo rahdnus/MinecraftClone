@@ -19,13 +19,11 @@ namespace Engine
              GLuint VAO_ID, VBO_ID, EBO_ID;
             struct Vertex *vertex;
             GLuint *indices;
-            ShaderProgram shaderProgram;
 
-            Mesh(Vertex *vertex,GLuint *indices,ShaderProgram shaderProgram)
+            Mesh(Vertex *vertex,GLuint *indices)
             {
                 this->vertex=vertex;
                 this->indices=indices;
-                this->shaderProgram=shaderProgram;
             }
             void Init();
             void Bind();
