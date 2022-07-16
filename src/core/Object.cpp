@@ -9,11 +9,22 @@ void Mesh::Init()
     glCreateBuffers(1,&VBO_ID);
     glBindBuffer(GL_ARRAY_BUFFER,VBO_ID);
     
-    glBufferData(GL_ARRAY_BUFFER,sizeof(vertex),vertex,GL_STATIC_DRAW);
+    Vertex Vertices[Vno];
+    for(int i=0;i<Vno;i++)
+    {
+        Vertices[i]=vertex[i];
+    }
+    
+    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
 
-    glCreateBuffers(1,&EBO_ID);    
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,EBO_ID);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER,sizeof(indices),indices,GL_STATIC_DRAW);
+    glCreateBuffers(1, &EBO_ID);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO_ID);
+    GLuint Indices[Ino];
+    for(int i=0;i<Ino;i++)
+    {
+        Indices[i]=indices[i];
+    }
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices), Indices, GL_STATIC_DRAW);
     
     glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,sizeof(Vertex),(void*)offsetof(Vertex,position));
     glEnableVertexAttribArray(0);

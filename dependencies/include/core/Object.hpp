@@ -16,20 +16,23 @@ namespace Engine
         private:
    
         public:
-             GLuint VAO_ID, VBO_ID, EBO_ID;
+            GLuint VAO_ID, VBO_ID, EBO_ID;
             struct Vertex *vertex;
             GLuint *indices;
+            int Vno,Ino;
 
-            Mesh(Vertex *vertex,GLuint *indices)
+            Mesh(Vertex *vertex,int Vno,GLuint *indices,int Ino)
             {
                 this->vertex=vertex;
                 this->indices=indices;
+                this->Vno=Vno;
+                this->Ino=Ino;
             }
             void Init();
             void Bind();
             void Draw();
-
     };
+
     struct Transform
     {
         glm::vec3 position;
@@ -37,17 +40,19 @@ namespace Engine
         glm::vec3 scale;
         
     };
-    class Object
+      
+/*     class Object
     {
-           private:
         public:
-            Mesh *mesh;
-
+            Mesh mesh;
             Transform transform;
-            Object(Mesh *mesh)
+
+         /*    Object(Mesh mesh)
             {
-                this->mesh=mesh;
-            }
-            //Components components[]
-    };
+                 this->mesh=mesh;
+                mesh.Init(); 
+            } 
+    }; 
+*/
+
 }
