@@ -20,7 +20,13 @@ namespace Engine
             struct Vertex *vertex;
             GLuint *indices;
             int Vno,Ino;
-
+            Mesh()
+            {
+                this->vertex=nullptr;
+                this->indices=nullptr;
+                this->Vno=-1;
+                this->Ino=-1;
+            }
             Mesh(Vertex *vertex,int Vno,GLuint *indices,int Ino)
             {
                 this->vertex=vertex;
@@ -41,18 +47,24 @@ namespace Engine
         
     };
       
-/*     class Object
+    class Object
     {
         public:
             Mesh mesh;
             Transform transform;
 
-         /*    Object(Mesh mesh)
+           Object(Mesh mesh)
             {
                  this->mesh=mesh;
-                mesh.Init(); 
+                this->mesh.Init(); 
             } 
+            void Cycle()
+            {
+                mesh.Bind();
+                mesh.Draw();
+
+            }
     }; 
-*/
+
 
 }

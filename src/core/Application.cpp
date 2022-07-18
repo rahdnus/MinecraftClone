@@ -48,7 +48,7 @@ int Application::run()
         1, 2, 3};
 
     Mesh mesh(vertex,sizeof(vertex)/sizeof(Vertex),indices,sizeof(indices)/sizeof(GLuint));
-    mesh.Init();
+    Object obj(mesh);
 
     while (!glfwWindowShouldClose(mywindow))
     {
@@ -58,9 +58,7 @@ int Application::run()
 
         shaderProgram.bind();
 
-        mesh.Bind();
-        mesh.Draw();
-
+        obj.Cycle();
         glfwSwapBuffers(mywindow);
         glfwPollEvents();
 
